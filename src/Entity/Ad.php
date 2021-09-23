@@ -75,7 +75,7 @@ class Ad
     public function initializeSlug(){
         if(empty($this->slug)) {
             $slugify = new Slugify();
-            $this->slug = $slugify->slugify($this->slug);
+            $this->slug = $slugify->slugify($this->title);
         }
     } 
 
