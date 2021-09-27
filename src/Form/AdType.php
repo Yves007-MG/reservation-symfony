@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Ad;
+use App\Form\ImageType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -12,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class AdType extends AbstractType
 {
@@ -36,17 +38,18 @@ class AdType extends AbstractType
         $builder
             ->add('title',TextType::class, $this->getConfiguration("Titre","Titre de votre annonce"))
             ->add('slug', TextType::class, $this->getConfiguration("Adresse web ","Tapez l'adreese web (automatique)"))
-            ->add('price',MoneyType::class, $this->getConfiguration("Prix par nuit","Indiquez le prix que vous voulez pour une nuit "))
+            ->add('coverImage',UrlType::class,$this->getConfiguration("Url d'image ","url "))
             ->add('introduction',TextType::class,$this->getConfiguration("Introduction","description globale de l'annonce"))
             ->add('content', TextareaType::class ,$this->getConfiguration("Description ","description "))
-            ->add('coverImage',UrlType::class,$this->getConfiguration("Url d'image ","url "))
             ->add('rooms',IntegerType::class,$this->getConfiguration("Nombre de chambres","nombre de chambre disponible "))
-            ->add('save',SubmitType::class,[
-                'label'=>'creer la nouvelle annonce',
-                'attr'=>[
-                    'class'=>'btn btn-primary'
+            ->add('price',MoneyType::class, $this->getConfiguration("Prix par nuit","Indiquez le prix que vous voulez pour une nuit "))
+            ->add(
+                'images',
+                CollectionType::class,
+                [
+                    'entry_type'=>ImageType::class
                 ]
-            ]);
+                )
         ;
     }
 
